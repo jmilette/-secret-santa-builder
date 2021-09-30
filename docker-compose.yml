@@ -1,0 +1,24 @@
+version: '3.6'
+services:
+  santa:
+    image: santa
+    ports:
+      - 80:80
+    #volumes:
+    #  - ./conf.d:/config/httpd/conf.d
+    environment:
+      PHP_UPLOAD_MAX_FILESIZE: 5M
+      PHP_OPCACHE_MAX_ACCELERATED_FILES: 1000
+      APACHE_MODULES: remoteip headers rewrite http2
+      #PHP Tweaks:
+      php.apc.enable_cli: 1
+      php.apc.shm_size: 128M
+      fpm.global.log_level: error
+      PHP_MEMORY_LIMIT: 128M
+      PHP_OPCACHE_MEMORY_CONSUMPTION: 128
+      FPM_PM_MAX_CHILDREN: 25
+      FPM_PM_START_SERVERS: 4
+      FPM_PM_MIN_SPARE_SERVERS: 4
+      FPM_PM_MAX_SPARE_SERVERS: 10
+      fpm.pool.pm.status_path: /status
+      PHP_FPM_SCRAPE_URI: unix:///run/php/php8.0-fpm.sock;/status
